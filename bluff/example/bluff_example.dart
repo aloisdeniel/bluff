@@ -18,7 +18,5 @@ Future main() async {
   );
   ;
 
-  await publish(
-    application: app,
-  );
+  await publish(app);
 }

@@ -174,7 +174,8 @@ class Flexible extends Widget {
     final style = html.DivElement().style;
     if (fit == FlexFit.tight) {
       style.flexGrow = flex.toString();
-      style.flexShrink = '0';
+      style.flexShrink = '1';
+      style.flexBasis = '0';
     } else {
       style.flexGrow = '0';
       style.flexShrink = flex.toString();

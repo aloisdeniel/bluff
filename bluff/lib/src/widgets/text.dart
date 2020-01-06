@@ -123,7 +123,22 @@ class Text extends Widget {
 
     final textStyles = this.style ?? Theme.of(context).text.paragraph;
 
+    if (textAlign != null) {
+      switch (textAlign) {
+        case TextAlign.end:
+        case TextAlign.right:
+          style.textAlign = 'right';
+          break;
+        case TextAlign.center:
+          style.textAlign = 'center';
+          break;
+        default:
+          style.textAlign = 'left';
+      }
+    }
+
     style.display = 'flex';
+    style.fontSize = (textStyles.fontSize ?? 12).toString();
     style.color = (textStyles.color ?? const Color(0xFF000000)).toCss();
     style.fontWeight = const <int, String>{
       0: '100',
@@ -135,10 +150,11 @@ class Text extends Widget {
       6: '700',
       7: '800',
       8: '900',
-    }[textStyles.fontWeight.index ?? FontWeight.w400.index];
+    }[textStyles.fontWeight?.index ?? FontWeight.w400.index];
     style.fontFamily = <String>[
-      if (textStyles.fontFamily != null) textStyles.fontFamily,
-      ...textStyles.fontFamilyFallback
+      if (textStyles.fontFamily != null) "'" + textStyles.fontFamily + "'",
+      if (textStyles.fontFamilyFallback != null)
+        ...textStyles.fontFamilyFallback
     ].join(', ');
 
     return style;

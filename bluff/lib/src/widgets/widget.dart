@@ -9,15 +9,23 @@ import '../build_context.dart';
 
 typedef WidgetBuilder = Widget Function(BuildContext context);
 
+typedef WidgetChildBuilder = Widget Function(
+    BuildContext context, Widget child);
+
+typedef WidgetValueBuilder<T> = Widget Function(BuildContext context, T value);
+
 @immutable
 abstract class Widget {
   final Key key;
   const Widget({this.key});
 
   FutureOr<html.HtmlElement> render(BuildContext context) async {
-    final html = await renderHtml(context);
     final css = await renderCss(context);
-    final key = this.key ?? context.createDefaultKey();
+    final html = await renderHtml(context);
+    if (this.key != null) {
+      html.id = this.key.className;
+    }
+    final key = context.createDefaultKey();
     html.className += (html.className.isEmpty ? '' : ' ') + key.className;
     if (css != null) context.styles[key.className] = css;
     return html;

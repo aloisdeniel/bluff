@@ -1,53 +1,60 @@
 import 'dart:async';
 
-import 'package:bluff/src/base/keys.dart';
-import 'package:universal_html/prefer_universal/html.dart' as html;
+import 'package:bluff/bluff.dart';
+import 'package:bluff/src/widgets/decorated_box.dart';
+import 'package:bluff/src/widgets/sized_box.dart';
 
-import 'package:bluff/src/base/decoration.dart';
+import 'padding.dart';
 
-import '../build_context.dart';
-import 'widget.dart';
-
-class Container extends Widget {
+class Container extends StatelessWidget {
   final Widget child;
-  final BoxDecoration decoration;
   final double width;
   final double height;
+  final BoxDecoration decoration;
+  final EdgeInsets padding;
+  final BoxConstraints constraints;
 
   const Container({
     Key key,
-    this.child,
-    this.decoration,
     this.width,
     this.height,
-  }) : super(key: key);
+    this.decoration,
+    this.constraints,
+    this.padding,
+    this.child,
+  }) : super(
+          key: key,
+        );
 
   @override
-  FutureOr<html.HtmlElement> render(BuildContext context) async {
-    final result = await super.render(context);
-    if (child != null) {
-      result.childNodes.add(await child.render(context));
-    }
-    return result;
-  }
+  FutureOr<Widget> build(BuildContext context) {
+    var result = child;
 
-  @override
-  FutureOr<html.CssStyleDeclaration> renderCss(BuildContext context) {
-    final style = html.DivElement().style;
-
-    style.display = 'flex';
-    if (width != null) style.width = '${width}px';
-    if (height != null) style.height = '${height}px';
-    if (decoration?.color != null) {
-      final color = decoration.color.toCss();
-      style.backgroundColor = color;
+    if (padding != null) {
+      result = Padding(
+        child: result,
+        padding: padding,
+      );
     }
 
-    return style;
-  }
+    if (decoration != null) {
+      result = DecoratedBox(
+        child: result,
+        decoration: decoration,
+      );
+    }
 
-  @override
-  FutureOr<html.HtmlElement> renderHtml(BuildContext context) {
-    return html.DivElement();
+    if (constraints != null) {
+      result = ConstrainedBox(
+        child: result,
+        constraints: constraints,
+      );
+    }
+
+    return SizedBox(
+      width: width,
+      height: height,
+      child: result,
+    );
   }
 }

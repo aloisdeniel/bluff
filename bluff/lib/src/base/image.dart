@@ -2,6 +2,12 @@ import 'package:meta/meta.dart';
 
 import 'hash_values.dart';
 
+class ImageProvider {
+  final String url;
+  const ImageProvider.network(String url) : url = url;
+  const ImageProvider.asset(String name) : url = 'asset://$name';
+}
+
 /// An image for a box decoration.
 ///
 /// The image is painted using [paintImage], which describes the meanings of the
@@ -25,7 +31,7 @@ class DecorationImage {
   ///
   /// Typically this will be an [AssetImage] (for an image shipped with the
   /// application) or a [NetworkImage] (for an image obtained from the network).
-  final String image;
+  final ImageProvider image;
 
   /// How the image should be inscribed into the box.
   ///
@@ -95,18 +101,6 @@ enum BoxFit {
   ///
   /// ![](https://flutter.github.io/assets-for-api-docs/assets/painting/box_fit_cover.png)
   cover,
-
-  /// Make sure the full width of the source is shown, regardless of
-  /// whether this means the source overflows the target box vertically.
-  ///
-  /// ![](https://flutter.github.io/assets-for-api-docs/assets/painting/box_fit_fitWidth.png)
-  fitWidth,
-
-  /// Make sure the full height of the source is shown, regardless of
-  /// whether this means the source overflows the target box horizontally.
-  ///
-  /// ![](https://flutter.github.io/assets-for-api-docs/assets/painting/box_fit_fitHeight.png)
-  fitHeight,
 
   /// Align the source within the target box (by default, centering) and discard
   /// any portions of the source that lie outside the box.

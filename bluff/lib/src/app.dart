@@ -6,6 +6,7 @@ import 'package:meta/meta.dart';
 import 'package:universal_html/prefer_universal/html.dart' as html;
 
 import 'build_context.dart';
+import 'helpers/css_base.dart';
 import 'helpers/css_reset.dart';
 import 'widgets/theme.dart';
 import 'widgets/widget.dart';
@@ -32,12 +33,23 @@ class Breakpoint {
   }
 }
 
+typedef ApplicationPlugin = Future<void> Function(
+  Application application,
+  html.HtmlHtmlElement document,
+);
+
+typedef ApplicationThemeBuilder = ThemeData Function(BuildContext context);
+
 class Application extends Widget {
   final String currentRoute;
   final List<Route> routes;
   final List<MediaSize> availableSizes;
   final List<Locale> supportedLocales;
-  final ThemeData theme;
+  final List<ApplicationPlugin> plugins;
+  final List<String> stylesheetLinks;
+  final List<String> scriptLinks;
+  final ApplicationThemeBuilder theme;
+  final WidgetChildBuilder builder;
 
   /// This list collectively defines the localized resources objects that can
   /// be retrieved with [Localizations.of].
@@ -47,6 +59,10 @@ class Application extends Widget {
     @required this.routes,
     this.currentRoute,
     this.theme,
+    this.builder,
+    this.stylesheetLinks = const <String>[],
+    this.scriptLinks = const <String>[],
+    this.plugins = const <ApplicationPlugin>[],
     this.delegates = const <LocalizationsDelegate<dynamic>>[],
     this.supportedLocales = const <Locale>[
       Locale('en', 'US'),
@@ -58,9 +74,17 @@ class Application extends Widget {
 
   Application withCurrentRoute(String currentRoute) {
     return Application(
-        currentRoute: currentRoute,
-        routes: routes,
-        availableSizes: availableSizes);
+      routes: routes,
+      currentRoute: currentRoute,
+      theme: theme,
+      stylesheetLinks: stylesheetLinks,
+      scriptLinks: scriptLinks,
+      plugins: plugins,
+      delegates: delegates,
+      supportedLocales: supportedLocales,
+      availableSizes: availableSizes,
+      builder: builder,
+    );
   }
 
   String _mediaClassForMediaSize(MediaSize size) {
@@ -92,11 +116,24 @@ class Application extends Widget {
     final currentRoute =
         routes.firstWhere((x) => x.relativeUrl == this.currentRoute);
     final head = html.HeadElement();
+    head.childNodes.add(html.MetaElement()..setAttribute('charset', 'UTF-8'));
+    head.childNodes.add(html.MetaElement()
+      ..setAttribute('name', 'viewport')
+      ..setAttribute('content', 'width=device-width, initial-scale=1'));
+
     document.childNodes.add(head);
+
+    for (var link in stylesheetLinks) {
+      head.childNodes.add(html.LinkElement()
+        ..href = link
+        ..rel = 'stylesheet');
+    }
+
     currentRoute.head(context, head);
 
     final styles = html.StyleElement();
     styles.childNodes.add(html.Text(resetCss));
+    styles.childNodes.add(html.Text(baseCss));
     document.childNodes.add(styles);
 
     final body = html.BodyElement();
@@ -108,18 +145,24 @@ class Application extends Widget {
       sizeDiv.className = 'size' + mediaSize.index.toString();
       final root = MediaQuery(
         data: MediaQueryData(size: mediaSize),
-        child: Theme(
-          data: theme,
-          child: currentRoute,
+        child: Builder(
+          builder: (context) => Theme(
+            data: theme(context),
+            child:
+                builder != null ? builder(context, currentRoute) : currentRoute,
+          ),
         ),
       );
 
       sizeDiv.childNodes.add(await root.render(context));
       body.childNodes.add(sizeDiv);
-    }
 
-    for (var style in context.styles.entries) {
-      styles.childNodes.add(html.Text('.${style.key} { ${style.value} }'));
+      for (var link in scriptLinks) {
+        body.childNodes.add(html.ScriptElement()
+          ..src = link
+          ..async = true
+          ..defer = true);
+      }
     }
 
     return document;
@@ -133,6 +176,11 @@ class Application extends Widget {
     context.styles.entries.forEach((e) {
       styles.childNodes.add(html.Text('.${e.key} { ${e.value.toString()} }'));
     });
+
+    for (var plugin in plugins) {
+      await plugin(this, result as html.HtmlHtmlElement);
+    }
+
     return result;
   }
 }
