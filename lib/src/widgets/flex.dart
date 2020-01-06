@@ -13,7 +13,7 @@ class Column extends Flex {
   const Column({
     Key key,
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
-    MainAxisSize mainAxisSize = MainAxisSize.max,
+    MainAxisSize mainAxisSize = MainAxisSize.min,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
     VerticalDirection verticalDirection = VerticalDirection.down,
     List<Widget> children = const <Widget>[],
@@ -31,7 +31,7 @@ class Row extends Flex {
   const Row({
     Key key,
     MainAxisAlignment mainAxisAlignment = MainAxisAlignment.start,
-    MainAxisSize mainAxisSize = MainAxisSize.max,
+    MainAxisSize mainAxisSize = MainAxisSize.min,
     CrossAxisAlignment crossAxisAlignment = CrossAxisAlignment.center,
     VerticalDirection verticalDirection = VerticalDirection.down,
     List<Widget> children = const <Widget>[],

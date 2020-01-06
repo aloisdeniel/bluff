@@ -1,3 +1,7 @@
+## 0.1.4
+
+- Default main axis size to min.
+
 ## 0.1.3
 
 - Fixing main axis size min.
