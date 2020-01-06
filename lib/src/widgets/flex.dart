@@ -127,7 +127,6 @@ class Flex extends Widget {
         style.justifyContent = 'stretch';
         break;
       default:
-        style.justifyContent = 'flex-start';
         break;
     }
 

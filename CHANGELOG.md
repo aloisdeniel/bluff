@@ -1,3 +1,7 @@
+## 0.1.3
+
+- Fixing main axis size min.
+
 ## 0.1.2
 
 - Fixed anchor navigation
