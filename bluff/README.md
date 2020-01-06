@@ -1,17 +1,16 @@
 # Bluff
 
-**Diclaimer :** this is a weekend hack, use at your own risk!
+## Diclaimer : I built this for my own needs, so don't expect it to be complete. It is a weekend hack, use at your own risk!
 
 Bluff is a static website generator written in dart that is inspired by Flutter widgets.
  
  > Why ?
 
-I started this project because I was tired of switching to a js environment everytime I need to write a small static website. I wanted the concept to be nearest of Flutter as possible, again, to keep the same way of developing interfaces.
+I started this project because I was tired of switching to a js environment everytime I need to write a small static website. I wanted the concept to be nearest of Flutter as possible, again, to keep the same way of developing user interfaces and not loosing time relearning paradigms again and again.
 
 > Why not using Flutter for web ?
 
 Just because I wanted a really lightweight website with good SEOs. The migration to Flutter for web should be pretty simple though.
-
 
 ## Usage
 
