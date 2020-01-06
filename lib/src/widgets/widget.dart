@@ -23,7 +23,8 @@ abstract class Widget {
     final css = await renderCss(context);
     final html = await renderHtml(context);
     if (this.key != null) {
-      html.id = this.key.className;
+      final media = MediaQuery.of(context);
+      html.id = this.key.className + '-${media.size.index}';
     }
     final key = context.createDefaultKey();
     html.className += (html.className.isEmpty ? '' : ' ') + key.className;

@@ -5,8 +5,6 @@ import 'package:bluff/src/base/keys.dart';
 import 'package:meta/meta.dart';
 import 'package:universal_html/prefer_universal/html.dart' as html;
 
-import 'package:bluff/src/base/decoration.dart';
-
 import '../build_context.dart';
 import 'widget.dart';
 

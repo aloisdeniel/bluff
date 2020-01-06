@@ -35,7 +35,7 @@ class Click extends Widget {
     final result = html.AnchorElement();
     result.className = 'click';
 
-    result.href = url;
+    result.href = context.resolveUrl(url);
     if (newTab) {
       result.target = '_blank';
     }

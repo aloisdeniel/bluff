@@ -4,6 +4,7 @@ import 'package:path/path.dart' as path;
 
 import 'assets.dart';
 import 'base/keys.dart';
+import 'widgets/media_query.dart';
 
 class BuildContext {
   static int lastKeyIndex = 0;
@@ -40,6 +41,12 @@ class BuildContext {
     if (url.startsWith('asset://')) {
       return path.join(assets.local.path, url.replaceAll('asset://', ''));
     }
+
+    if (url.startsWith('#')) {
+      final media = MediaQuery.of(this);
+      return url + '-${media.size.index}';
+    }
+
     return url;
   }
 }
