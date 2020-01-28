@@ -1,3 +1,7 @@
+## 0.1.7
+
+- Fixed missing properties when copying app.
+
 ## 0.1.6
 
 - Added build context to post render action.

@@ -93,6 +93,8 @@ class Application extends Widget {
       supportedLocales: supportedLocales,
       availableSizes: availableSizes,
       builder: builder,
+      additionalMeta: additionalMeta,
+      postRender: postRender,
     );
   }
 
