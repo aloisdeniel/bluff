@@ -12,7 +12,10 @@ import 'widgets/theme.dart';
 import 'widgets/widget.dart';
 import 'widgets/media_query.dart';
 
-typedef PostRenderAction = void Function(html.HtmlHtmlElement html);
+typedef PostRenderAction = void Function(
+  BuildContext context,
+  html.HtmlHtmlElement html,
+);
 
 class Breakpoint {
   final int minSize;
@@ -172,7 +175,7 @@ class Application extends Widget {
       }
     }
 
-    postRender?.call(document);
+    postRender?.call(context, document);
 
     return document;
   }

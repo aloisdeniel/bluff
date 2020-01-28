@@ -1,6 +1,10 @@
+## 0.1.6
+
+- Added build context to post render action.
+
 ## 0.1.5
 
-- Added meta and post render actions to app.
+- Added meta and post render action to app.
 
 ## 0.1.4
 
