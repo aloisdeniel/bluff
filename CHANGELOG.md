@@ -1,3 +1,7 @@
+## 0.1.8
+
+- Fixed line breaks.
+
 ## 0.1.7
 
 - Fixed missing properties when copying app.
