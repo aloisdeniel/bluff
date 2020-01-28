@@ -113,7 +113,18 @@ class Text extends Widget {
   @override
   html.HtmlElement renderHtml(BuildContext context) {
     final result = html.ParagraphElement();
-    result.childNodes.add(html.Text(data.replaceAll('\n', '<br />')));
+    final lines = data.split('\n');
+
+    result.childNodes.addAll([
+      html.Text(lines.first),
+      if (lines.length > 1)
+        ...lines.skip(1).expand(
+              (x) => [
+                html.BRElement(),
+                html.Text(lines.first),
+              ],
+            ),
+    ]);
     return result;
   }
 
