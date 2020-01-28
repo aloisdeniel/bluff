@@ -1,3 +1,7 @@
+## 0.1.10
+
+- Fixed line breaks.
+
 ## 0.1.9
 
 - Fixed line breaks.

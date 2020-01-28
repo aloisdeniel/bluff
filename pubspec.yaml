@@ -1,6 +1,6 @@
 name: bluff
 description: A starting point for Dart libraries or applications.
-version: 0.1.9
+version: 0.1.10
 homepage: https://github.com/aloisdeniel/bluff
 
 environment:

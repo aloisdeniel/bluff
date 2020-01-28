@@ -121,7 +121,7 @@ class Text extends Widget {
         ...lines.skip(1).expand(
               (x) => [
                 html.BRElement(),
-                html.Text(lines.first),
+                html.Text(x),
               ],
             ),
     ]);
