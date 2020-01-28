@@ -1,3 +1,7 @@
+## 0.1.5
+
+- Added meta and post render actions to app.
+
 ## 0.1.4
 
 - Default main axis size to min.

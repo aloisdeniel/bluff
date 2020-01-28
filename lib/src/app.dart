@@ -12,6 +12,8 @@ import 'widgets/theme.dart';
 import 'widgets/widget.dart';
 import 'widgets/media_query.dart';
 
+typedef PostRenderAction = void Function(html.HtmlHtmlElement html);
+
 class Breakpoint {
   final int minSize;
   final MediaSize size;
@@ -45,11 +47,13 @@ class Application extends Widget {
   final List<Route> routes;
   final List<MediaSize> availableSizes;
   final List<Locale> supportedLocales;
+  final List<html.MetaElement> additionalMeta;
   final List<ApplicationPlugin> plugins;
   final List<String> stylesheetLinks;
   final List<String> scriptLinks;
   final ApplicationThemeBuilder theme;
   final WidgetChildBuilder builder;
+  final PostRenderAction postRender;
 
   /// This list collectively defines the localized resources objects that can
   /// be retrieved with [Localizations.of].
@@ -60,6 +64,8 @@ class Application extends Widget {
     this.currentRoute,
     this.theme,
     this.builder,
+    this.postRender,
+    this.additionalMeta = const <html.MetaElement>[],
     this.stylesheetLinks = const <String>[],
     this.scriptLinks = const <String>[],
     this.plugins = const <ApplicationPlugin>[],
@@ -120,6 +126,7 @@ class Application extends Widget {
     head.childNodes.add(html.MetaElement()
       ..setAttribute('name', 'viewport')
       ..setAttribute('content', 'width=device-width, initial-scale=1'));
+    head.childNodes.addAll(additionalMeta);
 
     document.childNodes.add(head);
 
@@ -164,6 +171,8 @@ class Application extends Widget {
           ..defer = true);
       }
     }
+
+    postRender?.call(document);
 
     return document;
   }
