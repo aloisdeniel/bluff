@@ -1,3 +1,7 @@
+## 0.1.11
+
+- Added line height.
+
 ## 0.1.10
 
 - Fixed line breaks.

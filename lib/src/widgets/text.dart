@@ -148,6 +148,10 @@ class Text extends Widget {
       }
     }
 
+    if (textStyles.height != null) {
+      style.lineHeight = '${textStyles.height}';
+    }
+
     style.display = 'flex';
     style.fontSize = (textStyles.fontSize ?? 12).toString();
     style.color = (textStyles.color ?? const Color(0xFF000000)).toCss();
